@@ -17,36 +17,37 @@ function findAllCombinations(arrayOfValues, numberOfArrays, arrayOfCombinations)
     return arrayOfCombinations;
 }
 
-Array.prototype.findPairs = function(number) {
-  var array = this;
-  var arrayLength = array.length;
-  var valueIndexMap = {};
-  var valueValueMap = {};
-  var usedNumbers = {};
-  var canContinue;
-  var output = [];
+function extendArrayWithFindPairsAlg() {
+  Array.prototype.findPairs = function(number) {
+    var array = this;
+    var arrayLength = array.length;
+    var valueIndexMap = {};
+    var valueValueMap = {};
+    var usedNumbers = {};
+    var canContinue;
+    var output = [];
 
-  array.forEach(function(number, index) {
-	valueIndexMap[number] = index;
-	valueValueMap[number] = number;
-  });
+    array.forEach(function(number, index) {
+  	valueIndexMap[number] = index;
+  	valueValueMap[number] = number;
+    });
 
-  for (var i = 0; i < arrayLength; i++) {
-    	canContinue = true;
-    	if ((valueIndexMap[number - array[i]] === i) || usedNumbers[array[i]] ||   usedNumbers[number - array[i]]) {
-    		canContinue = false;
-    	}
+    for (var i = 0; i < arrayLength; i++) {
+      	canContinue = true;
+      	if ((valueIndexMap[number - array[i]] === i) || usedNumbers[array[i]] ||   usedNumbers[number - array[i]]) {
+      		canContinue = false;
+      	}
 
-	   if (canContinue && (valueValueMap[number - array[i]] === number - array[i])) {
-			output.push([array[i], number - array[i]]);
-			usedNumbers[array[i]] = true;
-			usedNumbers[number - array[i]] = true;
-		}
-	}
+  	   if (canContinue && (valueValueMap[number - array[i]] === number - array[i])) {
+  			output.push([array[i], number - array[i]]);
+  			usedNumbers[array[i]] = true;
+  			usedNumbers[number - array[i]] = true;
+  		}
+  	}
 
-	return output;
-};
-
+  	return output;
+  };
+}
 
 function capitalUseCheck(string) {
     var correct = false;
@@ -191,7 +192,7 @@ findSimilarNode(
 
 // --------------------------> write debounce
 //super simple
-function debounce(callback, timeToWait) {
+function debounceSimple(callback, timeToWait) {
     var currentTimeoutRuning;
 
     return function() {
@@ -201,7 +202,7 @@ function debounce(callback, timeToWait) {
 }
 
 // support of context and arguments
-function debounce(callback, timeToWait) {
+function debounceArgs(callback, timeToWait) {
     var currentTimeoutRuning;
     var args = Array.prototype.slice.call(arguments, 2);
 
@@ -220,7 +221,7 @@ function debounce(callback, timeToWait) {
 		var context = this;
 		clearInterval(currentRunningTimeout);
 		currentRunningTimeout = setTimeout(function() {
-			callback.apply(context, arguments);
+			callback.apply(context, args);
 		}, timeToWait || 0);
 	}
 }
@@ -279,4 +280,9 @@ Emitter.prototype.emit = function(event_name, param1, param2) {
     return subs.forEach(function(sub) {
         return sub.callback.call(sub, param1, param2);
     });
+}
+
+export default {
+  extendArrayWithFindPairsAlg,
+  debounce
 }
