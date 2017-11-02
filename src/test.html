@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Searching for a Symmetric Node</title>
+    </head>
+    <body>
+        <div id="root1">
+            <div>
+              <div></div>
+            </div>
+            <div>
+              <div id="node1"></div>
+              <div></div>
+            </div>
+          </div>
+
+          <div id="root2">
+            <div>
+              <div></div>
+            </div>
+            <div>
+              <div id="node2"></div>
+              <div></div>
+            </div>
+          </div>
+
+          <button type="button" id="bu" name="button" onclick="testDebounce()">Test debounce</button>
+    </body>
+    <script>
+
+    var a = 'test';
+    var testDebounce = debounce(function(mes) {
+        console.log(mes);
+    }, 500, a);
+
+    function debounce(callback, timeToWait) {
+        var currentTimeoutRuning;
+        timeToWait = timeToWait || 0;
+        var args = Array.prototype.slice.call(arguments, 2);
+
+        return function() {
+            var context = this;
+            clearTimeout(currentTimeoutRuning);
+            currentTimeoutRuning = setTimeout(() => callback.apply(context, args), timeToWait);
+        }
+    }
+
+    function getChildren(node) {
+        return Array.prototype.slice.call(node.childNodes);
+    }
+
+    function findTheWayUp(node, root) {
+        var nodeIndexAmongSiblings;
+        var wayUp = [];
+        var currentNode = node;
+
+        while(currentNode && currentNode.parentNode && currentNode !== root) {
+            nodeIndexAmongSiblings = getChildren(currentNode.parentNode).indexOf(currentNode);
+            wayUp.push(nodeIndexAmongSiblings);
+            currentNode = currentNode.parentNode;
+        }
+
+        return wayUp;
+    }
+
+    function findTheNode(root, wayUp) {
+        var wayUpClone = wayUp.slice(0);
+        var node = root;
+
+        while (wayUpClone.length) {
+            node = getChildren(node)[wayUpClone.pop()];
+        }
+
+        return node;
+    }
+
+    function findSimilarNode(givenNode, rootWithNode, rootWithNodeToFind) {
+        return findTheNode(rootWithNodeToFind, findTheWayUp(givenNode, rootWithNode));
+    }
+
+
+    function flatten(array) {
+        var flattern = [];
+
+        array.forEach(function(elem) {
+            if(Array.isArray(elem)) {
+                flattern = flattern.concat(flatten(elem));
+            } else {
+                flattern.push(elem);
+            }
+        });
+
+        return flattern;
+    }
+
+    console.log(findSimilarNode(document.getElementById('node1'), document.getElementById('root1'), document.getElementById('root2')));
+    </script>
+</html>
