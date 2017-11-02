@@ -1,4 +1,4 @@
 
 {
-  "presets": ["babel-preset-env", "react", "es2017"]
+  "presets": ["babel-preset-env", "react"]
 }
