@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import algorithms from './src/algorithms';
+import workexp from './src/workexp';
 
 const playground = (function() {
   const sayHi = () => {
@@ -7,13 +8,13 @@ const playground = (function() {
     console.log(_.isArray([]));
   }
 
-  sayHi();
+  //sayHi();
 
   // find pairs algo test
   const array = [1, 2, 3, 4, 5, 6, -9, 10];
   algorithms.extendArrayWithFindPairsAlg();
   const pairs = array.findPairs(6);
-  console.log(pairs);
+  //console.log(pairs);
 
   // test debounce
   const a = 'test';
@@ -38,7 +39,12 @@ const playground = (function() {
   var jobs = [job1, job2, job3];
   var callback = function(results) { console.log(results); };
 
-  algorithms.asyncMap(jobs, callback);
+//  algorithms.asyncMap(jobs, callback);
+
+
+  // test workexp
+
+  workexp.getWorkExperince();
 })();
 
 export default playground;
