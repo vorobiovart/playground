@@ -113,3 +113,33 @@ parent.amICool = function() {
 }
 
 child.amICool();
+
+// class inheritance
+
+class Base {
+  constructor(name = 'Base') {
+    this.name = name;
+  }
+
+  sayHi() {
+    console.log(this.name);
+  }
+}
+
+class Artur extends Base {
+  constructor() {
+    super();
+    this.name = 'Artur';
+  }
+  sayLalai() {
+    console.log('lalai');
+  }
+}
+
+const base = new Base();
+base.sayHi(); // Base.
+// base.sayLalai(); // error;
+
+const artur = new Artur();
+artur.sayHi(); // Artur
+artur.sayLalai(); // lalai

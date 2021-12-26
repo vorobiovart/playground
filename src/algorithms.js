@@ -28,8 +28,8 @@ function extendArrayWithFindPairsAlg() {
     var output = [];
 
     array.forEach(function(number, index) {
-  	valueIndexMap[number] = index;
-  	valueValueMap[number] = number;
+    	valueIndexMap[number] = index;
+    	valueValueMap[number] = number;
     });
 
     for (var i = 0; i < arrayLength; i++) {
@@ -226,6 +226,32 @@ function debounce(callback, timeToWait) {
 	}
 }
 
+// asyncMap
+
+// Task description:
+// Write an asyncMap function with two parameters — an array of asynchronous functions and a callback
+// function. Each of the asynchronous functions takes a its own callback and invokes that callback when
+// finished executing.
+// The callback passed to asyncMap should be invoked on the results of the callbacks of the asynchronous
+// functions. The order of the results should be the same as the order in which the asynchronous
+// functions were invoked. Note, the order in which the asynchronous functions are passed to a
+// syncMap determines the order of the results, not the order in which the asynchronous functions
+// finish executing. After all the callbacks of the asynchronous functions have returned, asyncMap
+// should invoke the callback on the collection of results.
+function asyncMap(requests, callback) {
+  let finished = requests.length;
+  const results = [];
+
+  requests.forEach((request, index) => {
+    request((result) => {
+      results[index] = result;
+      if (--finished === 0) {
+        callback(results);
+      }
+    });
+  });
+}
+
 // --------------------------> write myBind
 Function.prototype.myBind = Function.prototype.myBind || function(context) {
     var functionToInvoke = this;
@@ -241,7 +267,6 @@ Function.prototype.myBind = Function.prototype.myBind || function(context) {
 
 
 // EMITTER
-
 var Emitter = function() {
     this.events = {};
 };
@@ -283,6 +308,7 @@ Emitter.prototype.emit = function(event_name, param1, param2) {
 }
 
 export default {
+  asyncMap,
   extendArrayWithFindPairsAlg,
   debounce
 }
